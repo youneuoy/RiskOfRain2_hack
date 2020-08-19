@@ -389,5 +389,7 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
+Log.cpp
+Log.h
 # End of https://www.toptal.com/developers/gitignore/api/c++,visualstudio
 
