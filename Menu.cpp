@@ -11,8 +11,10 @@ void InitImgui(ID3D11Device* device, ID3D11DeviceContext* device_context)
 	oWndProc = (WNDPROC)SetWindowLongPtr(window1, -4, (LONG_PTR)WndProc);
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.IniFilename = NULL;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 20.5f, NULL, io.Fonts->GetGlyphRangesCyrillic());
+    io.MouseDrawCursor = true;
+
 
     ImGui::GetStyle().FrameRounding = 4.0f;
     ImGui::GetStyle().GrabRounding = 4.0f;
@@ -88,21 +90,54 @@ void MenuMainFunc(ID3D11Device* device, ID3D11DeviceContext* device_context)
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-		if (menuShow)
+		if (menuMainShow)
 		{
-			ImGui::Begin(u8"Risk Of Rain 2 Trainer (gamehacklab.ru)", &menuShow, ImGuiWindowFlags_MenuBar);
+
+			ImGui::Begin("Risk Of Rain 2 Trainer (gamehacklab.ru)", &menuMainShow);
 			ImGui::Text(u8"by KRYPTOPUNK");
-			ImGui::Text(u8"Настройки чита");
-			ImGui::Checkbox(u8"В игре", &bInGame);
-			if (ImGui::TreeNode(u8"Настройки персонажа"))
+			ImGui::Text(u8"Cheat Settings");
+			ImGui::Checkbox(u8"In game", &bInGame);
+            if (ImGui::Button(u8"Open camera settings"))
+            {
+                menuCameraSettingsShow = true;
+            }
+
+			if (ImGui::TreeNode(u8"Personage settings"))
 			{
-				ImGui::Checkbox(u8"Убийство Курсором", &bKillByCoursor);
+				ImGui::Checkbox(u8"Kill by coursor", &bKillByCoursor);
 				ImGui::TreePop();
 			};
 			
 			ImGui::End();
-		}
 
+		}
+        if (menuCameraSettingsShow)
+        {
+
+            ImGui::Begin("CAMERA SETTINGS WINDOW", &menuCameraSettingsShow);
+            ImGui::Checkbox(u8"Write in field's", &bCameraSettingsEnable);
+            ImGui::SliderFloat(u8"Base FOV", &fBaseFOV, 0, 300.f);
+            ImGui::SliderFloat(u8"Current FOV", &fCurrentFOV, 0, 300.f);
+            ImGui::SliderFloat(u8"FOV Velocity", &fFOVVelocity, 0, 300.f);
+            ImGui::Checkbox(u8"Enable Fading", &bEnableFading);
+            ImGui::SliderFloat(u8"Start Fade Distance", &fStartFadeDistance, 0, 300.f);
+            ImGui::SliderFloat(u8"End Fade Distance", &fEndFadeDistance, 0, 3000.f);
+            ImGui::Checkbox(u8"Disable Spectating", &bDisableSpectating);
+            ImGui::SliderFloat(u8"Max Aim Raycast Distance", &fmaxAimRaycastDistance, 500.f, 30000.f);
+            ImGui::Checkbox(u8"Write in PitchYaw", &bWriteInPY);
+            ImGui::SliderFloat(u8"Pitch", &fPitch, -70.f, 70.f);
+            ImGui::SliderFloat(u8"Yaw", &fYaw, 0.f, 180.f);
+            ImGui::DragFloat3(u8"Crosshair World Position (only read)", &v3_crosshairWorldPosition.x, 3.f, -100.f, 360.f);
+            ImGui::SliderFloat(u8"Current Camera Distance", &fCurrentCameraDistance, 0.f, 1000.f);
+            ImGui::SliderFloat(u8"Camera Distance Velocity", &fCameraDistanceVelocity, -10.f, 1000.f);
+            //ImGui::SliderFloat(u8"Hitmarker Alpha", &fHitmarkerAlpha, 0.f, 1000.f);
+            //ImGui::SliderFloat(u8"Hitmarker Timer", &fHitmarkerTimer, 0.f, 1000.f);
+            ImGui::End();
+        }
+        if (menuCharacterSettingsShow)
+        {
+
+        }
 
 		ImGui::EndFrame();
 		ImGui::Render();
@@ -111,7 +146,7 @@ void MenuMainFunc(ID3D11Device* device, ID3D11DeviceContext* device_context)
 }
 LRESULT __stdcall WndProc(const HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	if (menuShow) // если вызывается хендлер
+	if (menuMainShow) // если вызывается хендлер
 	{
 		ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
 	}

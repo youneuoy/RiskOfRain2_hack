@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <vector>
 
+
 uintptr_t FindAddressByOffset(uintptr_t baseaddr, std::vector<uintptr_t>& offsets)
 {
 	uintptr_t final_address = baseaddr;
@@ -22,6 +23,7 @@ public:
 	float x;
 	float y;
 	float z;
+
 
 
 };

@@ -1,8 +1,8 @@
 ﻿// dllmain.cpp : Определяет точку входа для приложения DLL.
 #include <Windows.h>
 //#include "sdk.h"
-#include "d3d11draw/rD3D11.h"
-#include "d3d11draw/pch.h"
+//#include "d3d11draw/rD3D11.h"
+//#include "d3d11draw/pch.h"
 //#include "imgui/imgui.h"
 //#include "imgui/imgui_impl_dx11.h"
 //#include "imgui/imgui_impl_win32.h"
@@ -64,6 +64,7 @@ DWORD ScreenCastRoutine()
 
         };
     }
+    
     rd11.UnHook();
     return 0;
 }
@@ -77,7 +78,7 @@ DWORD MainHackRoutine()
         //PlayerHC = reinterpret_cast<HealthComponent*>(FindAddressByOffset(CAMERA_HEALTH_CHARACTER_PLAYER_BASE, healthcomponentplayer_offsets));
         //PlayerCRC = reinterpret_cast<CameraRigController*>(FindAddressByOffset(CAMERA_HEALTH_CHARACTER_PLAYER_BASE, CameraRigControllerPtr_offsets));
         //PlayerCB = reinterpret_cast<CharacterBody*>(FindAddressByOffset(CAMERA_HEALTH_CHARACTER_PLAYER_BASE, CharacterBodyPtr_offsets));
-        if (IsLoadedCorrect(PlayerHC, PlayerCRC, PlayerCB))
+        if (IsLoadedCorrect(PlayerHC, PlayerCRC, PlayerCB) && bCheatInit)
         {
             if (bKillByCoursor)
             {
@@ -86,9 +87,47 @@ DWORD MainHackRoutine()
                     PlayerCRC->lastCrosshairHurtBox->healthComponent->health = 0;
                 }
             }
+            if (bCameraSettingsEnable)
+            {
+                PlayerCRC->pitch                    = fPitch;
+                PlayerCRC->yaw                      = fYaw;
+                PlayerCRC->baseFov                  = fBaseFOV;
+                PlayerCRC->currentFov               = fCurrentFOV;
+                PlayerCRC->currentCameraDistance    = fCurrentCameraDistance;
+                PlayerCRC->disableSpectating        = bDisableSpectating;
+                PlayerCRC->enableFading             = bEnableFading;
+                PlayerCRC->fadeEndDistance          = fEndFadeDistance;
+                PlayerCRC->fadeStartDistance        = fStartFadeDistance;
+                PlayerCRC->fovVelocity              = fFOVVelocity;
+                //PlayerCRC->hitmarkerAlpha           = fHitmarkerAlpha;
+                //PlayerCRC->hitmarkerTimer           = fHitmarkerTimer;
+                PlayerCRC->maxAimRaycastDistance    = fmaxAimRaycastDistance;
+            }
+            else
+            {
+                if (bWriteInPY)
+                {
+                    fPitch = PlayerCRC->pitch;
+                    fYaw = PlayerCRC->yaw;
+                };
+                fBaseFOV                    = PlayerCRC->baseFov;
+                fCurrentFOV                 = PlayerCRC->currentFov;
+                v3_crosshairWorldPosition   = PlayerCRC->crosshairWorldPosition;
+                fCurrentCameraDistance      = PlayerCRC->currentCameraDistance;
+                bDisableSpectating          = PlayerCRC->disableSpectating;
+                bEnableFading               = PlayerCRC->enableFading;
+                fEndFadeDistance            = PlayerCRC->fadeEndDistance;
+                fStartFadeDistance          = PlayerCRC->fadeStartDistance;
+                fFOVVelocity                = PlayerCRC->fovVelocity;
+                //fHitmarkerAlpha             = PlayerCRC->hitmarkerAlpha;
+                //fHitmarkerTimer             = PlayerCRC->hitmarkerTimer;
+                fmaxAimRaycastDistance      = PlayerCRC->maxAimRaycastDistance;
+
+
+            }
         }
 
-
+        Sleep(1);
         if (bInGame)
         {
             if (!bCheatInit)
@@ -115,7 +154,11 @@ DWORD ClickHandler()
     {
         if (GetAsyncKeyState(VK_INSERT) & 1)
         {
-            menuShow = !menuShow;
+            menuMainShow = !menuMainShow;
+            if (menuCameraSettingsShow)
+            {
+                menuCameraSettingsShow = false;
+            }
         }
         Sleep(100);
     }
@@ -131,6 +174,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     case DLL_PROCESS_ATTACH:    CreateThread(NULL, NULL, reinterpret_cast<LPTHREAD_START_ROUTINE>(MainHackRoutine), hModule, NULL, NULL);
                                 CreateThread(NULL, NULL, reinterpret_cast<LPTHREAD_START_ROUTINE>(ScreenCastRoutine), hModule, NULL, NULL);
                                 CreateThread(NULL, NULL, reinterpret_cast<LPTHREAD_START_ROUTINE>(ClickHandler), hModule, NULL, NULL);
+
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
