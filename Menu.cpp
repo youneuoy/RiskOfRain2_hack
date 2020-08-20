@@ -101,8 +101,12 @@ void MenuMainFunc(ID3D11Device* device, ID3D11DeviceContext* device_context)
             {
                 menuCameraSettingsShow = true;
             }
+            if (ImGui::Button("Open character settings"))
+            {
+                menuCharacterSettingsShow = true;
+            }
 
-			if (ImGui::TreeNode(u8"Personage settings"))
+			if (ImGui::TreeNode(u8"Extra"))
 			{
 				ImGui::Checkbox(u8"Kill by coursor", &bKillByCoursor);
 				ImGui::TreePop();
@@ -136,6 +140,105 @@ void MenuMainFunc(ID3D11Device* device, ID3D11DeviceContext* device_context)
         }
         if (menuCharacterSettingsShow)
         {
+            ImGui::Begin("CHARACTER SETTINGS SHOW", &menuCharacterSettingsShow);
+            ImGui::Checkbox("Write in field's", &bCharacterSettingsWrite);
+            ImGui::SliderInt("Body Index", &iBodyIndex, 0, 4);
+            ImGui::Checkbox("Linked to master", &bLinkedToMaster);
+            ImGui::Checkbox("Is Player Controlled", &bIsPlayerControlled);
+            ImGui::Checkbox("Disabling HurtBoxes", &bDisablingHurtBoxes);
+            ImGui::SliderInt("Previous Eqipment Index", &iPreviousEquipmentIndex, 0, 5);
+            ImGui::Checkbox("Has Effective Authority", &bHasEffectiveAuthority);
+            ImGui::Checkbox("Is Sprinting", &b_isSprinting);
+            ImGui::SliderFloat("Out Of Combat Stopwatch", &fOutOfCombatStopwatch, 0.f, 999.f);
+            ImGui::SliderFloat("Out Of Danger Stopwatch", &fOutOfDangerStopwatch, 0.f, 999.f);
+            ImGui::Checkbox(" Out Of Combat", &bOutOfCombat);
+            ImGui::Checkbox(" Out Of Danger", &b_outOfDanger);
+            ImGui::SliderFloat3("PreviosPosition (Only Read)", &vec3_previousPosition.x, -180, 360);
+            ImGui::SliderFloat("Not Moving Stopwatch", &fNotMovingStopwatch, 0.f, 999.f);
+            ImGui::Checkbox(" Root Motion In Main State", &bRootMotionInMainState);
+            if (ImGui::TreeNode("Player's parameters "))
+            {
+
+                
+                ImGui::SliderFloat("Main Root Speed", &fMainRootSpeed, 0, 999.f);
+                ImGui::SliderFloat("Base Max Health", &fBaseMaxHealth, 0, 999.f);
+                ImGui::SliderFloat("Base Regen", &fBaseRegen, 0, 999.f);
+                ImGui::SliderFloat("Base Max Regen", &fBaseMaxShield, 0, 999.f);
+                ImGui::SliderFloat("Base Move Speed", &fBaseMoveSpeed, 0, 999.f);
+                ImGui::SliderFloat("Base Acceleration", &fBaseAcceleration, 0, 999.f);
+                ImGui::SliderFloat("Base Jump Power", &fBaseJumpPower, 0, 999.f);
+                ImGui::SliderFloat("Base Damage", &fBaseDamage, 0, 999.f);
+                ImGui::SliderFloat("Base Attack Speed", &fBaseAttackSpeed, 0, 999.f);
+                ImGui::SliderFloat("Base Crit Chance", &fBaseCrit, 0, 100.f);
+                ImGui::SliderFloat("Base Armor", &fBaseArmor, 0, 999.f);
+                ImGui::SliderFloat("Base Jump Count", &fBaseJumpCount, 0, 999.f);
+                ImGui::SliderFloat("Sprinting Speed Multiplier", &fSprintingSpeedMultiplier, 0, 999.f);
+                ImGui::SliderFloat("Auto Calculate Level Stats", &fAutoCalculateLevelStats, 0, 999.f);
+                ImGui::SliderFloat("Level Max Health", &fLevelMaxHealth, 0, 999.f);
+                ImGui::SliderFloat("Level Regen", &fLevelRegen, 0, 999.f);
+                ImGui::SliderFloat("Level Max Shield", &fLevelMaxShield, 0, 999.f);
+                ImGui::SliderFloat("Level Move Speed", &fLevelMoveSpeed, 0, 999.f);
+                ImGui::SliderFloat("Level Jump Power", &fLevelJumpPower, 0, 999.f);
+                ImGui::SliderFloat("Level Damage", &fLevelDamage, 0, 999.f);
+                ImGui::SliderFloat("Level Attack Speed", &fLevelAttackSpeed, 0, 999.f);
+                ImGui::SliderFloat("Level Crit Chance", &fLevelCrit, 0, 999.f);
+                ImGui::SliderFloat("Level Armor", &fLevelArmor, 0, 999.f);
+                ImGui::SliderFloat("Level Experience", &fExperience, 0, 999.f);
+                ImGui::SliderFloat("Level", &fLevel, 0, 999.f);
+                ImGui::SliderFloat("Max Health", &fMaxhealth, 0, 999.f);
+                ImGui::SliderFloat("Max Barrier", &fMaxBarrier, 0, 999.f);
+                ImGui::SliderFloat("Barrier Decay Rate", &fBarrierDecayRate, 0, 999.f);
+                ImGui::SliderFloat("Regen", &fRegen, 0, 999.f);
+                ImGui::SliderFloat("MaxShield", &fMaxShield, 0, 999.f);
+                ImGui::SliderFloat("Move Speed", &fMoveSpeed, 0, 999.f);
+                ImGui::SliderFloat("Acceleration", &fAcceleration, 0, 999.f);
+                ImGui::SliderFloat("JumpPower", &fJumpPower, 0, 999.f);
+                ImGui::SliderInt("Max Jump Count", &iMaxJumpCoun, 0, 999);
+                ImGui::SliderFloat("Max Jump Height", &fMaxJumpHeight, 0, 999);
+                ImGui::SliderFloat("Damage", &fDamage, 0, 999);
+                ImGui::SliderFloat("AttackSpeed", &fAttackSpeed, 0, 999);
+                ImGui::SliderFloat("Crit Chance", &fCrit, 0, 999);
+                ImGui::SliderFloat("Armor", &fArmor, 0, 999);
+                ImGui::SliderFloat("Crit Heal", &fCritHeal, 0, 999);
+                ImGui::SliderFloat("Curse Penalty", &fCursePenalty, 0, 999);
+                ImGui::Checkbox("Has One Shot Protection", &bHasOneShotProtection);
+                ImGui::Checkbox("Is Glass", &bIsGlass);
+                ImGui::SliderFloat("One Shot Protection Fraction", &fOneShotProtectionFraction, 0, 999);
+                ImGui::Checkbox("Stats Dirty", &bStatsDirty);
+                ImGui::SliderFloat("Aim Timer", &fAimTimer, 0, 999);
+                ImGui::SliderFloat("WarCry Timer", &fWarCryTimer, 0, 999);
+                ImGui::Checkbox("WarCry Ready", &b_warCryReady);
+                ImGui::SliderInt("Kill Count", &iKillCount, 0, 999);
+                ImGui::SliderFloat("Tesla Buff Roll Timer", &fTeslaBuffRollTimer, 0, 999);
+                ImGui::SliderFloat("Tesla Fire Timer", &fTeslaFireTimer, 0, 999);
+                ImGui::SliderFloat("Tesla Reset List Timer", &fTeslaResetListTimer, 0, 999);
+                ImGui::SliderFloat("Tesla Reset List Interval", &fTeslaResetListInterval, 0, 999);
+                ImGui::Checkbox("Tesla Crit", &bTeslaCrit);
+                ImGui::SliderFloat("Hellfire Life Time", &fHelfireLifetime, 0, 999);
+                ImGui::Checkbox("Was Lucky", &bWasLucky);
+                ImGui::Checkbox("Guard Resummon Cooldown", &bGuardResummonCooldown);
+                ImGui::SliderFloat("Poisonball Timer", &fPoisonballTimer, 0, 999);
+                ImGui::SliderFloat("Ward Resummon Cooldown", &fWardResummonCooldown, 0, 999);
+                ImGui::SliderFloat("Spread Bloom Decay Time", &fSpreadBloomDecayTime, 0, 999);
+                ImGui::SliderFloat("Spread Bloom Internal", &fSpreadBloomInternal, 0, 999);
+                ImGui::Checkbox("Hide Crosshair", &bHideCrosshair);
+                ImGui::SliderFloat("Milti Kill Timer", &fMultiKillTimer, 0, 999);
+                ImGui::SliderInt("MultiKillCount", &iMultiKillCount, 0, 999);
+                ImGui::SliderFloat("Radius", &fRadius, 0, 999);
+                ImGui::Checkbox("Is Champion", &bIsChampion);
+                ImGui::Checkbox("Is Elite", &bIsElite);
+                ImGui::SliderInt("Skin Index", &iSkinIndex, 0, 999);
+                ImGui::SliderInt("Local Start Time", &iLocalStartTime, 0, 999);
+
+
+
+
+
+
+                ImGui::TreePop();
+            }
+
+            ImGui::End();
 
         }
 

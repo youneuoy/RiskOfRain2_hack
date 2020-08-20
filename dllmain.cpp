@@ -89,8 +89,12 @@ DWORD MainHackRoutine()
             }
             if (bCameraSettingsEnable)
             {
-                PlayerCRC->pitch                    = fPitch;
-                PlayerCRC->yaw                      = fYaw;
+                if (bWriteInPY)
+                {
+                    PlayerCRC->pitch = fPitch;
+                    PlayerCRC->yaw = fYaw;
+                }
+
                 PlayerCRC->baseFov                  = fBaseFOV;
                 PlayerCRC->currentFov               = fCurrentFOV;
                 PlayerCRC->currentCameraDistance    = fCurrentCameraDistance;
@@ -105,11 +109,10 @@ DWORD MainHackRoutine()
             }
             else
             {
-                if (bWriteInPY)
-                {
-                    fPitch = PlayerCRC->pitch;
-                    fYaw = PlayerCRC->yaw;
-                };
+
+
+                fPitch                      = PlayerCRC->pitch;
+                fYaw                        = PlayerCRC->yaw;
                 fBaseFOV                    = PlayerCRC->baseFov;
                 fCurrentFOV                 = PlayerCRC->currentFov;
                 v3_crosshairWorldPosition   = PlayerCRC->crosshairWorldPosition;
@@ -124,6 +127,10 @@ DWORD MainHackRoutine()
                 fmaxAimRaycastDistance      = PlayerCRC->maxAimRaycastDistance;
 
 
+            }
+            if (bCharacterSettingsWrite)
+            {
+                PlayerCB->acceleration = fAcceleration;
             }
         }
 
@@ -158,6 +165,10 @@ DWORD ClickHandler()
             if (menuCameraSettingsShow)
             {
                 menuCameraSettingsShow = false;
+            }
+            if (menuCharacterSettingsShow)
+            {
+                menuCharacterSettingsShow = false;
             }
         }
         Sleep(100);
