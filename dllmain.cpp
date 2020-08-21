@@ -11,9 +11,11 @@ rD3D11 rd11;
 std::vector<uintptr_t> healthcomponentplayer_offsets = { 0x8 ,0x10 ,0x30 ,0x118 ,0x28 ,0x0 };
 std::vector<uintptr_t> CameraRigControllerPtr_offsets = { 0x0 ,0x10 ,0x30 ,0xC8 ,0x28 ,0xA0,0x0 };
 std::vector<uintptr_t> CharacterBodyPtr_offsets = { 0x8 ,0x10 ,0x30 ,0xC8 ,0x28 ,0x48,0x0 };
+std::vector<uintptr_t> CharacterMasterPtr_offsets = { 0x8 ,0x10 ,0x30 ,0x48 ,0x28 ,0x68,0x0 };
 HealthComponent* PlayerHC = nullptr;
 CameraRigController* PlayerCRC = nullptr;
 CharacterBody* PlayerCB = nullptr;
+CharacterMaster* PlayerCM = nullptr;
 uintptr_t CAMERA_HEALTH_CHARACTER_PLAYER_BASE;
 template <typename T>
 T* SetPointerTo(T*& _where, uintptr_t baseaddr, std::vector<uintptr_t>& vec)
@@ -30,9 +32,9 @@ T* SetPointerTo(T*& _where, uintptr_t baseaddr, std::vector<uintptr_t>& vec)
 
 
 
-bool IsLoadedCorrect(HealthComponent*& one, CameraRigController*& two, CharacterBody*& three)
+bool IsLoadedCorrect(HealthComponent*& one, CameraRigController*& two, CharacterBody*& three,CharacterMaster*& four)
 {
-    if (one != nullptr && two != nullptr && three != nullptr)
+    if (one != nullptr && two != nullptr && three != nullptr && four != nullptr)
     {
         return true;
     }
@@ -48,8 +50,6 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pThis, UINT SyncInterval, UINT Flags
         rd11.InitD3DDraw(pThis);
     }
 
-    //enable this to test or debug viewport
-    //rd11.TestRender();
     MenuMainFunc(rd11.pDevice, rd11.pContext);
 
     return rd11.oPresentTramp(pThis, SyncInterval, Flags);
@@ -72,14 +72,55 @@ DWORD MainHackRoutine()
 {
     while (true)
     {
-        
-        //static uintptr_t CameraRigControllerPtr_baseaddr = reinterpret_cast<uintptr_t>(GetModuleHandle(L"UnityPlayer.dll")) + 0x01563A28;
-        //static uintptr_t CharacterBodyPtr_baseaddr = reinterpret_cast<uintptr_t>(GetModuleHandle(L"UnityPlayer.dll")) + 0x01563A28;
-        //PlayerHC = reinterpret_cast<HealthComponent*>(FindAddressByOffset(CAMERA_HEALTH_CHARACTER_PLAYER_BASE, healthcomponentplayer_offsets));
-        //PlayerCRC = reinterpret_cast<CameraRigController*>(FindAddressByOffset(CAMERA_HEALTH_CHARACTER_PLAYER_BASE, CameraRigControllerPtr_offsets));
-        //PlayerCB = reinterpret_cast<CharacterBody*>(FindAddressByOffset(CAMERA_HEALTH_CHARACTER_PLAYER_BASE, CharacterBodyPtr_offsets));
-        if (IsLoadedCorrect(PlayerHC, PlayerCRC, PlayerCB) && bCheatInit)
+
+
+        if (bInGame)
         {
+
+
+            if (!bCheatInit)
+            {
+                CAMERA_HEALTH_CHARACTER_PLAYER_BASE = reinterpret_cast<uintptr_t>(GetModuleHandle(L"UnityPlayer.dll")) + 0x01563A28;
+                SetPointerTo<HealthComponent>(PlayerHC, CAMERA_HEALTH_CHARACTER_PLAYER_BASE, healthcomponentplayer_offsets);
+                SetPointerTo<CameraRigController>(PlayerCRC, CAMERA_HEALTH_CHARACTER_PLAYER_BASE, CameraRigControllerPtr_offsets);
+                SetPointerTo<CharacterBody>(PlayerCB, CAMERA_HEALTH_CHARACTER_PLAYER_BASE, CharacterBodyPtr_offsets);
+                SetPointerTo<CharacterMaster>(PlayerCM, CAMERA_HEALTH_CHARACTER_PLAYER_BASE, CharacterMasterPtr_offsets);
+                if (!IsLoadedCorrect(PlayerHC, PlayerCRC, PlayerCB, PlayerCM))
+                {
+                    bInGame = false;
+                    bCheatInit = false;
+                    bKillByCoursor = false;
+                    bCameraSettingsEnable = false;
+                    bWriteInPY = false;
+                    bCharacterSettingsWrite = false;
+                    bGodModEnable = false;
+                }
+                else
+                {
+                    bCheatInit = true;
+                }
+
+               
+            }
+        }
+        else
+        {
+            bCheatInit = false;
+            bKillByCoursor = false;
+            bCameraSettingsEnable = false;
+            bWriteInPY = false;
+            bCharacterSettingsWrite = false;
+            bGodModEnable = false;
+            PlayerHC = nullptr;
+            PlayerCRC = nullptr;
+            PlayerCB = nullptr;
+            PlayerCM = nullptr;
+        }
+
+        
+        if (IsLoadedCorrect(PlayerHC, PlayerCRC, PlayerCB,PlayerCM) && bCheatInit)
+        {
+            PlayerCM->_money = MenuPlayerCM._money;
             if (bKillByCoursor)
             {
                 if (PlayerCRC->lastCrosshairHurtBox != nullptr)
@@ -111,8 +152,6 @@ DWORD MainHackRoutine()
                 PlayerCRC->fadeEndDistance          = MenuPlayerCRC.fadeEndDistance;
                 PlayerCRC->fadeStartDistance        = MenuPlayerCRC.fadeStartDistance;
                 PlayerCRC->fovVelocity              = MenuPlayerCRC.fovVelocity;
-                //PlayerCRC->hitmarkerAlpha           = fHitmarkerAlpha;
-                //PlayerCRC->hitmarkerTimer           = fHitmarkerTimer;
                 PlayerCRC->maxAimRaycastDistance    = MenuPlayerCRC.maxAimRaycastDistance;
             }
             else
@@ -130,8 +169,6 @@ DWORD MainHackRoutine()
                 MenuPlayerCRC.fadeEndDistance           = PlayerCRC->fadeEndDistance;
                 MenuPlayerCRC.fadeStartDistance         = PlayerCRC->fadeStartDistance;
                 MenuPlayerCRC.fovVelocity               = PlayerCRC->fovVelocity;
-                //fHitmarkerAlpha                       = PlayerCRC->hitmarkerAlpha;
-                //fHitmarkerTimer                       = PlayerCRC->hitmarkerTimer;
                 MenuPlayerCRC.maxAimRaycastDistance     = PlayerCRC->maxAimRaycastDistance;
 
 
@@ -142,32 +179,17 @@ DWORD MainHackRoutine()
             }
             else
             {
-                //MenuPlayerCB.acceleration = PlayerCB->acceleration;
-                //MenuPlayerCB.activeBuffsListCount = PlayerCB->activeBuffsListCount;
-                //MenuPlayerCB.aimTimer = PlayerCB->aimTimer;
-                //MenuPlayerCB.armor = PlayerCB->armor;
-                //MenuPlayerCB.attackSpeed = PlayerCB->attackSpeed;
-                //MenuPlayerCB.autoCalculateLevelStats = PlayerCB->autoCalculateLevelStats;
                 MenuPlayerCB = *PlayerCB;
-            }
-        }
-
-        Sleep(1);
-        if (bInGame)
-        {
-            if (!bCheatInit)
-            {
-                CAMERA_HEALTH_CHARACTER_PLAYER_BASE = reinterpret_cast<uintptr_t>(GetModuleHandle(L"UnityPlayer.dll")) + 0x01563A28;
-                SetPointerTo<HealthComponent>(PlayerHC, CAMERA_HEALTH_CHARACTER_PLAYER_BASE, healthcomponentplayer_offsets);
-                SetPointerTo<CameraRigController>(PlayerCRC, CAMERA_HEALTH_CHARACTER_PLAYER_BASE, CameraRigControllerPtr_offsets);
-                SetPointerTo<CharacterBody>(PlayerCB, CAMERA_HEALTH_CHARACTER_PLAYER_BASE, CharacterBodyPtr_offsets);
-                bCheatInit = true;
             }
         }
         else
         {
-            bCheatInit = false;
+            bInGame = false;
+
         }
+
+        Sleep(1);
+
         Sleep(10);
     }
 
@@ -189,7 +211,7 @@ DWORD ClickHandler()
                 menuCharacterSettingsShow = false;
             }
         }
-        Sleep(100);
+        Sleep(10);
     }
 }
 

@@ -9,6 +9,7 @@
 #include "sdk.h"
 CameraRigController MenuPlayerCRC;
 CharacterBody MenuPlayerCB;
+CharacterMaster MenuPlayerCM;
 template <typename T>
 T* SetPointerTo(T*& _where,uintptr_t baseaddr, std::vector<uintptr_t>& vec);
 

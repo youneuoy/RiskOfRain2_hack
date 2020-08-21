@@ -114,13 +114,13 @@ void MenuMainFunc(ID3D11Device* device, ID3D11DeviceContext* device_context)
                 menuCharacterSettingsShow = true;
             }
 
-			if (ImGui::TreeNode(u8"Extra"))
+			if (ImGui::TreeNode(u8"Misc"))
 			{
 				ImGui::Checkbox(u8"Kill by coursor", &bKillByCoursor);
                 ImGui::Checkbox("God Mode", &bGodModEnable);
+                ImGui::SliderInt("Money", reinterpret_cast<int*>(&MenuPlayerCM._money),0,999999);
 				ImGui::TreePop();
 			};
-			
 			ImGui::End();
 
 		}
@@ -144,32 +144,28 @@ void MenuMainFunc(ID3D11Device* device, ID3D11DeviceContext* device_context)
             ImGui::DragFloat3(u8"Crosshair World Position (only read)", &MenuPlayerCRC.crosshairWorldPosition.x, 3.f, -100.f, 360.f);
             ImGui::SliderFloat(u8"Current Camera Distance", &MenuPlayerCRC.currentCameraDistance, 0.f, 1000.f);
             ImGui::SliderFloat(u8"Camera Distance Velocity", &MenuPlayerCRC.cameraDistanceVelocity, -10.f, 1000.f);
-            //ImGui::SliderFloat(u8"Hitmarker Alpha", &fHitmarkerAlpha, 0.f, 1000.f);
-            //ImGui::SliderFloat(u8"Hitmarker Timer", &fHitmarkerTimer, 0.f, 1000.f);
             ImGui::End();
         }
         if (menuCharacterSettingsShow) // MenuPlayerCB
         {
             ImGui::Begin("CHARACTER SETTINGS WINDOW", &menuCharacterSettingsShow);
             ImGui::Checkbox("Write in field's", &bCharacterSettingsWrite);
-            ImGui::SliderInt("Body Index", &MenuPlayerCB.bodyIndex, 0, 4);
-            ImGui::Checkbox("Linked to master", &MenuPlayerCB.linkedToMaster);
-            ImGui::Checkbox("Is Player Controlled", &MenuPlayerCB.isPlayerControlled);
+            //ImGui::SliderInt("Body Index", &MenuPlayerCB.bodyIndex, 0, 4);
+            //ImGui::Checkbox("Linked to master", &MenuPlayerCB.linkedToMaster);
+            //ImGui::Checkbox("Is Player Controlled", &MenuPlayerCB.isPlayerControlled);
             ImGui::Checkbox("Disabling HurtBoxes", &MenuPlayerCB.disablingHurtBoxes);
-            ImGui::SliderInt("Previous Eqipment Index", &MenuPlayerCB.previousEquipmentIndex, 0, 5);
-            ImGui::Checkbox("Has Effective Authority", &MenuPlayerCB.hasEffectiveAuthority);
-            ImGui::Checkbox("Is Sprinting", &MenuPlayerCB._isSprinting);
-            ImGui::SliderFloat("Out Of Combat Stopwatch", &MenuPlayerCB.outOfCombatStopwatch, 0.f, 999.f);
-            ImGui::SliderFloat("Out Of Danger Stopwatch", &MenuPlayerCB.outOfDangerStopwatch, 0.f, 999.f);
-            ImGui::Checkbox(" Out Of Combat", &MenuPlayerCB.outOfCombat);
-            ImGui::Checkbox(" Out Of Danger", &MenuPlayerCB._outOfDanger);
+            //ImGui::SliderInt("Previous Eqipment Index", &MenuPlayerCB.previousEquipmentIndex, 0, 5);
+            //ImGui::Checkbox("Has Effective Authority", &MenuPlayerCB.hasEffectiveAuthority);
+            //ImGui::Checkbox("Is Sprinting", &MenuPlayerCB._isSprinting);
+            //ImGui::SliderFloat("Out Of Combat Stopwatch", &MenuPlayerCB.outOfCombatStopwatch, 0.f, 999.f);
+            //ImGui::SliderFloat("Out Of Danger Stopwatch", &MenuPlayerCB.outOfDangerStopwatch, 0.f, 999.f);
+            //ImGui::Checkbox(" Out Of Combat", &MenuPlayerCB.outOfCombat);
+            //ImGui::Checkbox(" Out Of Danger", &MenuPlayerCB._outOfDanger);
             ImGui::SliderFloat3("PreviosPosition (Only Read)", &MenuPlayerCB.previousPosition.x, -180, 360);
-            ImGui::SliderFloat("Not Moving Stopwatch", &MenuPlayerCB.notMovingStopwatch, 0.f, 999.f);
-            ImGui::Checkbox(" Root Motion In Main State", &MenuPlayerCB.rootMotionInMainState);
+            //ImGui::SliderFloat("Not Moving Stopwatch", &MenuPlayerCB.notMovingStopwatch, 0.f, 999.f);
+            //ImGui::Checkbox(" Root Motion In Main State", &MenuPlayerCB.rootMotionInMainState);
             if (ImGui::TreeNode("Player's parameters "))
             {
-
-                
                 ImGui::SliderFloat("Main Root Speed", &MenuPlayerCB.mainRootSpeed, 0, 999.f);
                 if (ImGui::TreeNode("Base parameters"))
                 {
@@ -222,19 +218,19 @@ void MenuMainFunc(ID3D11Device* device, ID3D11DeviceContext* device_context)
                     ImGui::SliderFloat("Crit Chance", &MenuPlayerCB.crit, 0, 999);
                     ImGui::SliderFloat("Armor", &MenuPlayerCB.armor, 0, 999);
                     ImGui::SliderFloat("Crit Heal", &MenuPlayerCB.critHeal, 0, 999);
-                    ImGui::SliderFloat("Curse Penalty", &MenuPlayerCB.cursePenalty, 0, 999);
-                    ImGui::Checkbox("Has One Shot Protection", &MenuPlayerCB.hasOneShotProtection);
-                    ImGui::Checkbox("Is Glass", &MenuPlayerCB.isGlass);
-                    ImGui::SliderFloat("One Shot Protection Fraction", &MenuPlayerCB.oneShotProtectionFraction, 0, 999);
-                    ImGui::Checkbox("Stats Dirty", &MenuPlayerCB.statsDirty);
-                    ImGui::SliderFloat("Aim Timer", &MenuPlayerCB.aimTimer, 0, 999);
-                    ImGui::SliderFloat("WarCry Timer", &MenuPlayerCB.warCryTimer, 0, 999);
-                    ImGui::Checkbox("WarCry Ready", &MenuPlayerCB._warCryReady);
+                    //ImGui::SliderFloat("Curse Penalty", &MenuPlayerCB.cursePenalty, 0, 999);
+                    //ImGui::Checkbox("Has One Shot Protection", &MenuPlayerCB.hasOneShotProtection);
+                    //ImGui::Checkbox("Is Glass", &MenuPlayerCB.isGlass);
+                    //ImGui::SliderFloat("One Shot Protection Fraction", &MenuPlayerCB.oneShotProtectionFraction, 0, 999);
+                    //ImGui::Checkbox("Stats Dirty", &MenuPlayerCB.statsDirty);
+                    //ImGui::SliderFloat("Aim Timer", &MenuPlayerCB.aimTimer, 0, 999);
+                    //ImGui::SliderFloat("WarCry Timer", &MenuPlayerCB.warCryTimer, 0, 999);
+                    //ImGui::Checkbox("WarCry Ready", &MenuPlayerCB._warCryReady);
                     ImGui::SliderInt("Kill Count", &MenuPlayerCB.killCount, 0, 999);
-                    ImGui::SliderFloat("Tesla Buff Roll Timer", &MenuPlayerCB.teslaBuffRollTimer, 0, 999);
-                    ImGui::SliderFloat("Tesla Fire Timer", &MenuPlayerCB.teslaFireTimer, 0, 999);
-                    ImGui::SliderFloat("Tesla Reset List Timer", &MenuPlayerCB.teslaResetListTimer, 0, 999);
-                    ImGui::SliderFloat("Tesla Reset List Interval", &MenuPlayerCB.teslaResetListInterval, 0, 999);
+                    //ImGui::SliderFloat("Tesla Buff Roll Timer", &MenuPlayerCB.teslaBuffRollTimer, 0, 999);
+                    //ImGui::SliderFloat("Tesla Fire Timer", &MenuPlayerCB.teslaFireTimer, 0, 999);
+                    //ImGui::SliderFloat("Tesla Reset List Timer", &MenuPlayerCB.teslaResetListTimer, 0, 999);
+                    //ImGui::SliderFloat("Tesla Reset List Interval", &MenuPlayerCB.teslaResetListInterval, 0, 999);
                     ImGui::Checkbox("Tesla Crit", &MenuPlayerCB.teslaCrit);
                     ImGui::SliderFloat("Hellfire Life Time", &MenuPlayerCB.helfireLifetime, 0, 999);
                     ImGui::Checkbox("Was Lucky", &MenuPlayerCB.wasLucky);
@@ -249,23 +245,14 @@ void MenuMainFunc(ID3D11Device* device, ID3D11DeviceContext* device_context)
                     ImGui::SliderFloat("Radius", &MenuPlayerCB.radius, 0, 999);
                     ImGui::Checkbox("Is Champion", &MenuPlayerCB.isChampion);
                     ImGui::Checkbox("Is Elite", &MenuPlayerCB.isElite);
-                    ImGui::SliderInt("Skin Index", &MenuPlayerCB.skinIndex, 0, 999);
-                    ImGui::SliderInt("Local Start Time", &MenuPlayerCB.localStartTime, 0, 999);
+                    //ImGui::SliderInt("Skin Index", &MenuPlayerCB.skinIndex, 0, 999);
+                    //ImGui::SliderInt("Local Start Time", &MenuPlayerCB.localStartTime, 0, 999);
                     ImGui::TreePop();
                 }
-
-
-
-
-
-
                 ImGui::TreePop();
             }
-
             ImGui::End();
-
         }
-
 		ImGui::EndFrame();
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
