@@ -245,6 +245,57 @@ public:
 class CharacterBody
 {
 public:
+	//CharacterBody operator=(CharacterBody* src)
+	//{
+	//	this->acceleration = src->acceleration;
+	//	this->activeBuffsListCount = src->activeBuffsListCount;
+	//	this->aimTimer = src->aimTimer;
+	//	this->armor = src->armor;
+	//	this->attackSpeed = src->armor;
+	//	this->autoCalculateLevelStats = src->autoCalculateLevelStats;
+	//	this->barrierDecayRate = src->barrierDecayRate;
+	//	this->baseAcceleration = src->baseAcceleration;
+	//	this->baseArmor = src->baseArmor;
+	//	this->baseAttackSpeed = src->baseAttackSpeed;
+	//	this->baseCrit = src->baseCrit;
+	//	this->baseDamage = src->baseDamage;
+	//	this->baseJumpCount = src->baseJumpCount;
+	//	this->baseJumpPower = src->baseJumpCount;
+	//	this->baseMaxHealth = src->baseMaxHealth;
+	//	this->baseMaxShield = src->baseMaxShield;
+	//	this->baseRegen = src->baseRegen;
+	//	this->bodyFlags = src->bodyFlags;
+	//	this->bodyIndex = src->bodyIndex;
+	//	this->crit = src->crit;
+	//	this->critHeal = src->critHeal;
+	//	this->cursePenalty = src->cursePenalty;
+	//	this->damage = src->damage;
+	//	this->disablingHurtBoxes = src->disablingHurtBoxes;
+	//	this->experience = src->experience;
+	//	this->guardResummonCooldown = src->guardResummonCooldown;
+	//	this->hasEffectiveAuthority = src->hasEffectiveAuthority;
+	//	this->hasOneShotProtection = src->hasOneShotProtection;
+	//	this->helfireLifetime = src->helfireLifetime;
+	//	this->hideCrosshair = src->hideCrosshair;
+	//	this->isChampion = src->isChampion;
+	//	this->isElite = src->isElite;
+	//	this->isGlass = src->isGlass;
+	//	this->isPlayerControlled = src->isGlass;
+	//	this->_isSprinting = src->_isSprinting;
+	//	this->jumpPower = src->jumpPower;
+	//	this->killCount = src->killCount;
+	//	this->level = src->level;
+	//	this->levelArmor = src->levelArmor;
+	//	this->levelAttackSpeed = src->levelAttackSpeed;
+	//	this->levelCrit = src->levelCrit;
+	//	this->levelDamage = src->levelDamage;
+	//	this->levelJumpPower = src->levelJumpPower;
+	//	this->levelMaxHealth = src->levelMaxHealth;
+	//	this->levelMaxShield = src->levelMaxShield;
+	//	this->levelMoveSpeed = src->levelMoveSpeed;
+	//	this->levelRegen = src->levelRegen;
+
+	//}
 	char pad_0000[112]; //0x0000
 	void* inventory; //0x0070
 	char pad_0078[56]; //0x0078

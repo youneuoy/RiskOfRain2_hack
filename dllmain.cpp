@@ -87,50 +87,68 @@ DWORD MainHackRoutine()
                     PlayerCRC->lastCrosshairHurtBox->healthComponent->health = 0;
                 }
             }
+            if (bGodModEnable)
+            {
+                PlayerHC->godMode = true;
+            }
+            else
+            {
+                PlayerHC->godMode = false;
+            }
             if (bCameraSettingsEnable)
             {
                 if (bWriteInPY)
                 {
-                    PlayerCRC->pitch = fPitch;
-                    PlayerCRC->yaw = fYaw;
+                    PlayerCRC->pitch = MenuPlayerCRC.pitch;
+                    PlayerCRC->yaw = MenuPlayerCRC.yaw;
                 }
 
-                PlayerCRC->baseFov                  = fBaseFOV;
-                PlayerCRC->currentFov               = fCurrentFOV;
-                PlayerCRC->currentCameraDistance    = fCurrentCameraDistance;
-                PlayerCRC->disableSpectating        = bDisableSpectating;
-                PlayerCRC->enableFading             = bEnableFading;
-                PlayerCRC->fadeEndDistance          = fEndFadeDistance;
-                PlayerCRC->fadeStartDistance        = fStartFadeDistance;
-                PlayerCRC->fovVelocity              = fFOVVelocity;
+                PlayerCRC->baseFov                  = MenuPlayerCRC.baseFov;
+                PlayerCRC->currentFov               = MenuPlayerCRC.currentFov;
+                PlayerCRC->currentCameraDistance    = MenuPlayerCRC.currentCameraDistance;
+                PlayerCRC->disableSpectating        = MenuPlayerCRC.disableSpectating;
+                PlayerCRC->enableFading             = MenuPlayerCRC.enableFading;
+                PlayerCRC->fadeEndDistance          = MenuPlayerCRC.fadeEndDistance;
+                PlayerCRC->fadeStartDistance        = MenuPlayerCRC.fadeStartDistance;
+                PlayerCRC->fovVelocity              = MenuPlayerCRC.fovVelocity;
                 //PlayerCRC->hitmarkerAlpha           = fHitmarkerAlpha;
                 //PlayerCRC->hitmarkerTimer           = fHitmarkerTimer;
-                PlayerCRC->maxAimRaycastDistance    = fmaxAimRaycastDistance;
+                PlayerCRC->maxAimRaycastDistance    = MenuPlayerCRC.maxAimRaycastDistance;
             }
             else
             {
 
 
-                fPitch                      = PlayerCRC->pitch;
-                fYaw                        = PlayerCRC->yaw;
-                fBaseFOV                    = PlayerCRC->baseFov;
-                fCurrentFOV                 = PlayerCRC->currentFov;
-                v3_crosshairWorldPosition   = PlayerCRC->crosshairWorldPosition;
-                fCurrentCameraDistance      = PlayerCRC->currentCameraDistance;
-                bDisableSpectating          = PlayerCRC->disableSpectating;
-                bEnableFading               = PlayerCRC->enableFading;
-                fEndFadeDistance            = PlayerCRC->fadeEndDistance;
-                fStartFadeDistance          = PlayerCRC->fadeStartDistance;
-                fFOVVelocity                = PlayerCRC->fovVelocity;
-                //fHitmarkerAlpha             = PlayerCRC->hitmarkerAlpha;
-                //fHitmarkerTimer             = PlayerCRC->hitmarkerTimer;
-                fmaxAimRaycastDistance      = PlayerCRC->maxAimRaycastDistance;
+                MenuPlayerCRC.pitch                     = PlayerCRC->pitch;
+                MenuPlayerCRC.yaw                       = PlayerCRC->yaw;
+                MenuPlayerCRC.baseFov                   = PlayerCRC->baseFov;
+                MenuPlayerCRC.currentFov                = PlayerCRC->currentFov;
+                MenuPlayerCRC.crosshairWorldPosition    = PlayerCRC->crosshairWorldPosition;
+                MenuPlayerCRC.currentCameraDistance     = PlayerCRC->currentCameraDistance;
+                MenuPlayerCRC.disableSpectating         = PlayerCRC->disableSpectating;
+                MenuPlayerCRC.enableFading              = PlayerCRC->enableFading;
+                MenuPlayerCRC.fadeEndDistance           = PlayerCRC->fadeEndDistance;
+                MenuPlayerCRC.fadeStartDistance         = PlayerCRC->fadeStartDistance;
+                MenuPlayerCRC.fovVelocity               = PlayerCRC->fovVelocity;
+                //fHitmarkerAlpha                       = PlayerCRC->hitmarkerAlpha;
+                //fHitmarkerTimer                       = PlayerCRC->hitmarkerTimer;
+                MenuPlayerCRC.maxAimRaycastDistance     = PlayerCRC->maxAimRaycastDistance;
 
 
             }
             if (bCharacterSettingsWrite)
             {
-                PlayerCB->acceleration = fAcceleration;
+                *PlayerCB = MenuPlayerCB;
+            }
+            else
+            {
+                //MenuPlayerCB.acceleration = PlayerCB->acceleration;
+                //MenuPlayerCB.activeBuffsListCount = PlayerCB->activeBuffsListCount;
+                //MenuPlayerCB.aimTimer = PlayerCB->aimTimer;
+                //MenuPlayerCB.armor = PlayerCB->armor;
+                //MenuPlayerCB.attackSpeed = PlayerCB->attackSpeed;
+                //MenuPlayerCB.autoCalculateLevelStats = PlayerCB->autoCalculateLevelStats;
+                MenuPlayerCB = *PlayerCB;
             }
         }
 

@@ -7,114 +7,11 @@
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
 #include "sdk.h"
-extern CameraRigController* PlayerCRC;
+CameraRigController MenuPlayerCRC;
+CharacterBody MenuPlayerCB;
 template <typename T>
 T* SetPointerTo(T*& _where,uintptr_t baseaddr, std::vector<uintptr_t>& vec);
-/////////////////////////////////////////////////////////////////
-float fBaseFOV;
-float fCurrentFOV;
-float fFOVVelocity;
-float fStartFadeDistance;
-float fEndFadeDistance;
-float fmaxAimRaycastDistance;
-float fPitch;
-float fYaw;
-float fCurrentCameraDistance;
-float fCameraDistanceVelocity;
-//float fHitmarkerAlpha;
-//float fHitmarkerTimer;
-bool bEnableFading;
-bool bDisableSpectating;
-Vector3 v3_crosshairWorldPosition;
-//////////////////////////////////////////////////////////////////////
-int32_t iBodyIndex; 
-//int32_t iActiveBuffsListCount; 
-//int32_t iEliteBuffCount; 
-//int32_t iPendingTonicAfflictionCount; 
-//int32_t iBodyFlags; 
-//int32_t iMasterObjectId; 
-bool bLinkedToMaster; 
-bool bIsPlayerControlled; 
-bool bDisablingHurtBoxes; 
-int32_t iPreviousEquipmentIndex; 
-bool bHasEffectiveAuthority; 
-bool b_isSprinting; 
-float fOutOfCombatStopwatch; 
-float fOutOfDangerStopwatch; 
-bool bOutOfCombat; 
-bool b_outOfDanger; 
-Vector3 vec3_previousPosition; 
-float fNotMovingStopwatch; 
-bool bRootMotionInMainState;
-float fMainRootSpeed;
-float fBaseMaxHealth; 
-float fBaseRegen; 
-float fBaseMaxShield; 
-float fBaseMoveSpeed; 
-float fBaseAcceleration; 
-float fBaseJumpPower; 
-float fBaseDamage; 
-float fBaseAttackSpeed; 
-float fBaseCrit;
-float fBaseArmor; 
-float fBaseJumpCount; 
-float fSprintingSpeedMultiplier; 
-float fAutoCalculateLevelStats; 
-float fLevelMaxHealth; 
-float fLevelRegen; 
-float fLevelMaxShield; 
-float fLevelMoveSpeed; 
-float fLevelJumpPower; 
-float fLevelDamage; 
-float fLevelAttackSpeed;
-float fLevelCrit; 
-float fLevelArmor;
-float fExperience;
-float fLevel; 
-float fMaxhealth; 
-float fMaxBarrier;
-float fBarrierDecayRate; 
-float fRegen; 
-float fMaxShield; 
-float fMoveSpeed; 
-float fAcceleration; 
-float fJumpPower; 
-int32_t iMaxJumpCoun;
-float fMaxJumpHeight;
-float fDamage; 
-float fAttackSpeed; 
-float fCrit; 
-float fArmor; 
-float fCritHeal; 
-float fCursePenalty; 
-bool bHasOneShotProtection; 
-bool bIsGlass; 
-float fOneShotProtectionFraction; 
-bool bStatsDirty;
-float fAimTimer; 
-float fWarCryTimer; 
-bool b_warCryReady; 
-int32_t iKillCount; 
-float fTeslaBuffRollTimer; 
-float fTeslaFireTimer; 
-float fTeslaResetListTimer;
-float fTeslaResetListInterval;
-bool bTeslaCrit;
-float fHelfireLifetime; 
-bool bWasLucky; 
-bool bGuardResummonCooldown; 
-float fPoisonballTimer; 
-float fWardResummonCooldown;
-float fSpreadBloomDecayTime;
-float fSpreadBloomInternal; 
-bool bHideCrosshair; 
-float fMultiKillTimer; 
-int32_t iMultiKillCount; 
-float fRadius;
-bool bIsChampion; 
-bool bIsElite; 
-int32_t iSkinIndex; 
-int32_t iLocalStartTime; 
+
 ////////////////////////////////////////////////////////////////
 
 
@@ -124,6 +21,7 @@ bool bKillByCoursor = false;
 bool bCameraSettingsEnable = false;
 bool bWriteInPY = false;
 bool bCharacterSettingsWrite = false;
+bool bGodModEnable = false;
 
 
 bool initialized_imgui = false;
