@@ -195,25 +195,7 @@ DWORD MainHackRoutine()
 
     return 0;
 }
-DWORD ClickHandler()
-{
-    while (true)
-    {
-        if (GetAsyncKeyState(VK_INSERT) & 1)
-        {
-            menuMainShow = !menuMainShow;
-            if (menuCameraSettingsShow)
-            {
-                menuCameraSettingsShow = false;
-            }
-            if (menuCharacterSettingsShow)
-            {
-                menuCharacterSettingsShow = false;
-            }
-        }
-        Sleep(10);
-    }
-}
+
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -224,7 +206,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:    CreateThread(NULL, NULL, reinterpret_cast<LPTHREAD_START_ROUTINE>(MainHackRoutine), hModule, NULL, NULL);
                                 CreateThread(NULL, NULL, reinterpret_cast<LPTHREAD_START_ROUTINE>(ScreenCastRoutine), hModule, NULL, NULL);
-                                CreateThread(NULL, NULL, reinterpret_cast<LPTHREAD_START_ROUTINE>(ClickHandler), hModule, NULL, NULL);
 
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
