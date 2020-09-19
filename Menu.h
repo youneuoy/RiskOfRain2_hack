@@ -32,12 +32,14 @@ bool menuCharacterSettingsShow = false;
 
 
 ImGuiContext* context = 0;
-WNDPROC		oWndProc = NULL;																		// текущий хендл процесса
+WNDPROC		oWndProc = NULL;																		// ГІГҐГЄГіГ№ГЁГ© ГµГҐГ­Г¤Г« ГЇГ°Г®Г¶ГҐГ±Г±Г 
 HWND		window1 = NULL;
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 void InitImgui(ID3D11Device* device, ID3D11DeviceContext* device_context);
 void MenuMainFunc(ID3D11Device* device, ID3D11DeviceContext* device_context);
+
+void checkMsgs(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT __stdcall WndProc(const HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
